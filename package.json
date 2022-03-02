@@ -34,6 +34,7 @@
     "hardhat-abi-exporter": "^2.2.1",
     "hardhat-deploy": "^0.8.11",
     "hardhat-deploy-ethers": "^0.3.0-beta.10",
+    "hardhat-deploy-tenderly": "^0.1.0",
     "hardhat-gas-reporter": "^1.0.4",
     "rfc4648": "^1.5.0"
   },
