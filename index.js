@@ -1,3 +1,4 @@
+const AggregatorInterface = require('./build/contracts/AggregatorInterface')
 const BaseRegistrar = require('./build/contracts/BaseRegistrar')
 const BaseRegistrarImplementation = require('./build/contracts/BaseRegistrarImplementation')
 const BulkRenewal = require('./build/contracts/BulkRenewal')
@@ -28,6 +29,7 @@ const SHA1Digest = require('./build/contracts/SHA1Digest')
 const SHA1NSEC3Digest = require('./build/contracts/SHA1NSEC3Digest')
 
 module.exports = {
+  AggregatorInterface,
   BaseRegistrar,
   BaseRegistrarImplementation,
   BulkRenewal,
