@@ -51,6 +51,12 @@ module.exports = {
       tags: ['test', 'legacy', 'use_root'],
       chainId: 3,
       accounts: real_accounts,
+      settings: {
+        oracle_address: "0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507",
+        rent_prices: ["20294266869609", "5073566717402", "158548959919"],
+        start_premium: "100000000000000000000000000",
+        total_days: 21,
+      }
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_ID}`,

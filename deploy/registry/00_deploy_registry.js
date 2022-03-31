@@ -18,7 +18,7 @@ module.exports = async ({getNamedAccounts, deployments, network}) => {
             args: [contract.address],
             log: true,
             contract: await deployments.getArtifact('ENSRegistryWithFallback')
-        });    
+        });
     } else {
         await deploy('ENSRegistry', {
             from: deployer,
