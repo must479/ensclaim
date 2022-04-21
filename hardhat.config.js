@@ -53,7 +53,7 @@ module.exports = {
       accounts: real_accounts,
       settings: {
         oracle_address: "0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507",
-        rent_prices: ["20294266869609", "5073566717402", "158548959919"],
+        rent_prices: ["0", "0", "20294266869609", "5073566717402", "158548959919"],
         start_premium: "100000000000000000000000000",
         total_days: 21,
       }
@@ -63,6 +63,12 @@ module.exports = {
       tags: ['legacy', 'use_root'],
       chainId: 1,
       accounts: real_accounts,
+      settings: {
+        oracle_address: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+        rent_prices: ["0", "0", "20294266869609", "5073566717402", "158548959919"],
+        start_premium: "100000000000000000000000000",
+        total_days: 21,
+      }
     },
   },
   mocha: {
