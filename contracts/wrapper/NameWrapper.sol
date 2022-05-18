@@ -381,6 +381,7 @@ contract NameWrapper is
         onlyTokenOwner(parentNode)
         canCallSetSubnodeOwner(parentNode, labelhash)
     {
+        _ownerChangeUnwrap(parentNode, labelhash, owner);
         ens.setSubnodeRecord(parentNode, labelhash, owner, resolver, ttl);
     }
 
@@ -402,6 +403,7 @@ contract NameWrapper is
         canCallSetSubnodeOwner(parentNode, labelhash)
         returns (bytes32)
     {
+        _ownerChangeUnwrap(parentNode, labelhash, owner);
         return ens.setSubnodeOwner(parentNode, labelhash, owner);
     }
 
@@ -788,5 +790,22 @@ contract NameWrapper is
             return (NameSafety.ControllerNotWrapped, node);
         }
         return (NameSafety.Safe, 0);
+    }
+
+    function _ownerChangeUnwrap(
+        bytes32 parentNode,
+        bytes32 labelhash,
+        address owner
+    ) internal {
+        if (owner == address(this)) {
+            revert IncorrectTargetOwner(owner);
+        }
+        bytes32 node = _makeNode(parentNode, labelhash);
+
+        if (ens.owner(node) == address(this)) {
+            _burn(uint256(node));
+            emit NameUnwrapped(node, owner);
+        }
+        return;
     }
 }
