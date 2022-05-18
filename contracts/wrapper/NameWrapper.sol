@@ -381,8 +381,7 @@ contract NameWrapper is
         onlyTokenOwner(parentNode)
         canCallSetSubnodeOwner(parentNode, labelhash)
     {
-        _ownerChangeUnwrap(parentNode, labelhash, owner);
-        ens.setSubnodeRecord(parentNode, labelhash, owner, resolver, ttl);
+        _setSubnodeRecord(parentNode, labelhash, owner, resolver, ttl, true);
     }
 
     /**
@@ -399,12 +398,9 @@ contract NameWrapper is
     )
         public
         override
-        onlyTokenOwner(parentNode)
-        canCallSetSubnodeOwner(parentNode, labelhash)
         returns (bytes32)
     {
-        _ownerChangeUnwrap(parentNode, labelhash, owner);
-        return ens.setSubnodeOwner(parentNode, labelhash, owner);
+        return _setSubnodeOwner(parentNode, labelhash, owner, true);
     }
 
     /**
@@ -425,7 +421,7 @@ contract NameWrapper is
         node = _makeNode(parentNode, labelhash);
         bytes memory name = _addLabel(label, names[parentNode]);
 
-        setSubnodeOwner(parentNode, labelhash, address(this));
+        _setSubnodeOwner(parentNode, labelhash, address(this), false);
 
         _wrap(node, name, newOwner, _fuses);
     }
@@ -452,7 +448,7 @@ contract NameWrapper is
         bytes32 node = _makeNode(parentNode, labelhash);
         bytes memory name = _addLabel(label, names[parentNode]);
 
-        setSubnodeRecord(parentNode, labelhash, address(this), resolver, ttl);
+        _setSubnodeRecord(parentNode, labelhash, address(this), resolver, ttl, false);
 
         _wrap(node, name, newOwner, _fuses);
     }
@@ -792,7 +788,42 @@ contract NameWrapper is
         return (NameSafety.Safe, 0);
     }
 
-    function _ownerChangeUnwrap(
+    function _setSubnodeRecord(
+        bytes32 parentNode,
+        bytes32 labelhash,
+        address owner,
+        address resolver,
+        uint64 ttl,
+        bool tryUnwrap
+    )
+        internal
+        onlyTokenOwner(parentNode)
+        canCallSetSubnodeOwner(parentNode, labelhash)
+    {
+        if (tryUnwrap) {
+            _ownerChangeTryUnwrap(parentNode, labelhash, owner);
+        }
+        ens.setSubnodeRecord(parentNode, labelhash, owner, resolver, ttl);
+    }
+
+    function _setSubnodeOwner(
+        bytes32 parentNode,
+        bytes32 labelhash,
+        address owner,
+        bool tryUnwrap
+    )
+        internal
+        onlyTokenOwner(parentNode)
+        canCallSetSubnodeOwner(parentNode, labelhash)
+        returns (bytes32)
+    {
+        if (tryUnwrap) {
+            _ownerChangeTryUnwrap(parentNode, labelhash, owner);
+        }
+        return ens.setSubnodeOwner(parentNode, labelhash, owner);
+    }
+
+    function _ownerChangeTryUnwrap(
         bytes32 parentNode,
         bytes32 labelhash,
         address owner
